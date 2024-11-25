@@ -4,11 +4,23 @@ from lxml import html
 
 class Scrathers:
     def getHtmlContent(self,url, Xpath):
-        response = requests.get(url)
-        tree = html.fromstring(response.content)
-        if Xpath:
-            return  tree.xpath(Xpath)
-        return tree
+        try: 
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            tree = html.fromstring(response.content)
+            if Xpath:
+                return  tree.xpath(Xpath)
+            return tree
+        except requests.exceptions.Timeout:
+            print(f"Error: The request to {url} timed out.")
+        except requests.exceptions.RequestException as e:
+            print(f"Error: An error occurred while fetching {url}. Details: {e}")
+        except html.ParserError as e:
+            print(f"Error: Failed to parse the HTML content from {url}. Details: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+        return None
+
 
     def getImage(self,tree):
         img_tags = tree.xpath("//img")
