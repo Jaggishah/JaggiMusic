@@ -13,6 +13,7 @@ class Main:
         for i in range(10,0,-1):
             self.fetching(i)
         dbConnection.close(logger=logger)
+       
 
     def fetching(self,i : int ):
         url = f"{DATABASE_URL}{i}"
@@ -37,7 +38,7 @@ class Main:
                     }
                 songs.append(songs_data)
         logger.info("fetching song - " + str(songs))
-        dbConnection.insert_data("single_track",songs,logger)
+        dbConnection.insert_data("single_track",songs[::-1],logger)
         logger.info("fetching end with insertion.... " )
 
     
