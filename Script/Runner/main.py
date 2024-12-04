@@ -5,7 +5,8 @@ from Helpers.CRUD import MongoDBClient
 
 logger = setup_logger()
 scrather = Scrathers()
-dbConnection = MongoDBClient(uri=DB_STRING)
+# uri=DB_STRING
+dbConnection = MongoDBClient()
 
 class Main:
     def __init__(self):
