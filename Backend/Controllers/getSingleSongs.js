@@ -8,11 +8,23 @@ export const getSingleTrackController = async (req, res) => {
         const collection = mongoose.connection.db.collection("single_track");
 
         const transcripts = await collection
-            .find({}, { projection: { _id: 0 } }) // Exclude the `id` field
-            .sort({ _id: -1 }) // Sort by `id` in ascending order
-            .skip((page - 1) * limit)
-            .limit(limit)
-            .toArray();
+                        .aggregate([
+                            { $sort: { _id: -1 } }, // Sort by `_id`
+                            { $skip: (page - 1) * limit }, // Pagination
+                            { $limit: limit }, // Limit results
+                            { 
+                            $project: { 
+                                _id: 0,       // Exclude `_id`
+                                id: "$_id",   // Rename `_id` to `id`
+                                title : 1,
+                                artist : 1,
+                                artwork : 1,
+                                url : 1
+                            } 
+                            }
+                        ])
+                        .toArray();     
+
 
         res.status(200).json({
             message: "Data retrieved successfully",

@@ -32,10 +32,10 @@ class Scrathers:
             
     def getLinks(self,tree):
         anchor_tags = tree.xpath("//a")
-        links = []
+        links = ''
         for anchor in anchor_tags:
             href = anchor.get("href") 
-            if href and  href.endswith(".mp3"):
-                links.append(href)
+            if href and  href.endswith(".mp3") and '320' in href:
+                links = href
         
-        return links if len(links) > 0 else None
+        return links 

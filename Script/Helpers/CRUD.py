@@ -57,8 +57,8 @@ class MongoDBClient:
                 if isinstance(data, list):
                     new_data = []
                     for document in data:
-                        name = document.get('name')
-                        if collection.count_documents({'name': name}) == 0: 
+                        url = document.get('url')
+                        if collection.count_documents({'url': url}) == 0: 
                             new_data.append(document)
 
                     if new_data: 

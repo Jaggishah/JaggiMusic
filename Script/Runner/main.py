@@ -32,10 +32,12 @@ class Main:
                 text = anchor.text_content().strip()  # Get the text content
                 
                 new_page = scrather.getHtmlContent(href,None)
+
                 songs_data = {
-                    "name" : text,
+                    "title" : text.split('-')[1] if len(text.split('-')) == 2 else text,
+                    "artist" : text.split('-')[0] if len(text.split('-')) == 2 else text,
                     "artwork" : scrather.getImage(new_page),
-                    "links" : scrather.getLinks(new_page)
+                    "url" : scrather.getLinks(new_page)
                     }
                 songs.append(songs_data)
         logger.info("fetching song - " + str(songs))
